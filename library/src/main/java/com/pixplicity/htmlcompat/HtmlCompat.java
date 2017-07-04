@@ -89,19 +89,6 @@ public class HtmlCompat {
     }
 
     /**
-     * Is notified when <span> tags are encountered
-     */
-    public interface SpanHandler {
-        /**
-         * This method will be called when the parser encounters a <span>
-         * tag that it does not know how to interpret.
-         */
-        void handleSpanTag(boolean opening, String tag,
-                Attributes attributes, Editable output, XMLReader xmlReader);
-    }
-
-
-    /**
      * Is notified when a new span is created.
      */
     public interface SpanCallback {
@@ -210,7 +197,7 @@ public class HtmlCompat {
      * <p>This uses TagSoup to handle real HTML, including all of the brokenness found in the wild.
      */
     public static Spanned fromHtml(@NonNull Context context, @NonNull String source, int flags) {
-        return fromHtml(context, source, flags, null, null, null, null);
+        return fromHtml(context, source, flags, null, null);
     }
 
     /**
@@ -232,7 +219,7 @@ public class HtmlCompat {
      */
     public static Spanned fromHtml(@NonNull Context context, @NonNull String source, int flags,
                                    @Nullable ImageGetter imageGetter) {
-        return fromHtml(context, source, flags, imageGetter, null, null, null);
+        return fromHtml(context, source, flags, imageGetter, null, null);
     }
 
     /**
@@ -245,7 +232,7 @@ public class HtmlCompat {
      */
     public static Spanned fromHtml(@NonNull Context context, @NonNull String source, int flags,
                                    @Nullable ImageGetter imageGetter, @Nullable TagHandler tagHandler) {
-        return fromHtml(context, source, flags, imageGetter, tagHandler, null, null);
+        return fromHtml(context, source, flags, imageGetter, tagHandler, null);
     }
 
     /**
@@ -258,7 +245,7 @@ public class HtmlCompat {
      */
     public static Spanned fromHtml(@NonNull Context context, @NonNull String source, int flags,
                                    @Nullable ImageGetter imageGetter, @Nullable TagHandler tagHandler,
-                                   @Nullable SpanCallback spanCallback, @Nullable SpanHandler spanHandler) {
+                                   @Nullable SpanCallback spanCallback) {
         if (source == null) {
             return null;
         }
@@ -270,7 +257,7 @@ public class HtmlCompat {
             throw new RuntimeException(e);
         }
         HtmlToSpannedConverter converter =
-                new HtmlToSpannedConverter(context, source, imageGetter, tagHandler, spanCallback, spanHandler, parser, flags);
+                new HtmlToSpannedConverter(context, source, imageGetter, tagHandler, spanCallback, parser, flags);
         return converter.convert();
     }
 
