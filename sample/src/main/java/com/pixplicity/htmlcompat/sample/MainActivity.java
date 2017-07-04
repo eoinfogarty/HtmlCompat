@@ -1,10 +1,5 @@
 package com.pixplicity.htmlcompat.sample;
 
-import com.pixplicity.htmlcompat.HtmlCompat;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.XMLReader;
-
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -21,6 +16,11 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.pixplicity.htmlcompat.HtmlCompat;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.XMLReader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -98,12 +98,6 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.this.handleTag(opening, tag, attributes, output, xmlReader);
                 }
             };
-            HtmlCompat.SpanHandler spanHandler = new HtmlCompat.SpanHandler() {
-                @Override
-                public void handleSpanTag(boolean opening, String tag, Attributes attributes, Editable output, XMLReader xmlReader) {
-                    MainActivity.this.handleTag(opening, tag, attributes, output, xmlReader);
-                }
-            };
             HtmlCompat.SpanCallback spanCallback = new HtmlCompat.SpanCallback() {
                 @Override
                 public Object onSpanCreated(String tag, Object span) {
@@ -116,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             };
             fromHtml = HtmlCompat.fromHtml(this, source,
                     HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM,
-                    imageGetter, tagHandler, spanCallback, spanHandler);
+                    imageGetter, tagHandler, spanCallback);
         }
         mTvHello.setMovementMethod(LinkMovementMethod.getInstance());
         mTvHello.setText(fromHtml);
